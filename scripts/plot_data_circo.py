@@ -10,6 +10,6 @@ merged = gpd.GeoDataFrame(pd.merge(df, df_places, on='id_bv'))
 # Plot % of votes for Brice Gaillard
 merged.plot(column=merged['% Voix/exprimés 1'].map(lambda x: float(x[:-1].replace(',', '.'))),
         legend=True,
-        legend_kwds={'label':'% votes NFP', 'vmin':30})
+        legend_kwds={'label':'% votes NFP'})
 
 
