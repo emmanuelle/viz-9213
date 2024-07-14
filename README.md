@@ -34,4 +34,4 @@ merged.plot(column=merged['% Voix/exprimés 1'].map(lambda x: float(x[:-1].repla
 
 ```
 
-
+![viz-example](https://github.com/user-attachments/assets/6acf7946-52fb-4af3-beed-b891d6f9878c)
