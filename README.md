@@ -9,7 +9,9 @@ https://www.data.gouv.fr/fr/datasets/proposition-de-contours-des-bureaux-de-vote
 
 ## Data files
 
-``raw_data/circo_contours.geojson``: geojson file with contours of polling stations
+``raw_data/circo_contours_bvnames_corrected.geojson``: geojson file with contours of polling stations
+
+``raw_data/circo_contours_bvnames_results.geojson``: geojson file with contours of polling stations and election results as properties
 
 ``raw_data/legislatives2024_t1_9213.xlsx`` and ``raw_data/legislatives2024_t2_9213.xlsx``: election results in 92-13 - legislatives 2024
 
