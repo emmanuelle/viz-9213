@@ -5,7 +5,7 @@ import geojson
 def format_series(s):
     return float(s[:-1].replace(',', '.'))
 
-with open('../raw_data/circo_contours.geojson') as f:
+with open('../raw_data/circo_contours_bvnames_corrected.geojson') as f:
     gj = geojson.load(f)
 
 bv_names = pd.read_excel('../raw_data/noms_bureaux_votes.xlsx').rename(columns={'Unnamed: 0': 'Code'})
