@@ -34,7 +34,8 @@ df_circo['Isnard'] = df_circo['% Voix/exprimés 3'].map(format_series)
 df_circo['Yvars'] = df_circo['% Voix/exprimés 6'].map(format_series)
 df_circo['Participation'] = df_circo['% Votants'].map(format_series)
 df_circo['id_bv'] = df_circo['Code commune'].astype(str) + '_' + df_circo['Code BV'].astype(str)
-df_circo['nomBureauVote'] = df_circo['id_bv'].map(dict_bv_names) 
+df_circo['id_bv2'] = df_circo['Code commune'].astype(str) + '_' + df_circo['Code BV'].astype(str).map(lambda s: s.lstrip('0'))
+df_circo['nomBureauVote'] = df_circo['id_bv2'].map(dict_bv_names) 
 df_circo.to_excel('legislatives2024_t1_9213.xlsx')
 
 # Departementales
@@ -45,3 +46,12 @@ df['Code_commune'] = df['Code du département'].astype(str) + '_' + df['Code de 
 df_circo = df[df['Code_commune'].isin(['92_019', '92_014', '92_071', '92_002'])]
 
 df_circo.to_excel('departementales_2021_t1.xlsx')
+
+# Europeenes data from https://www.data.gouv.fr/fr/datasets/resultats-des-elections-europeennes-du-9-juin-2024/
+
+df = pd.read_excel('original_data/europeennes_2024.xlsx')
+df_circo = df[df['Code commune'].isin(['92019', '92014', '92071', '92002'])]
+parties = {4:'Aubry', 6:'Toussaint', 3:'Maréchal', 18:'Bellamy', 11:'Hayer', 27: 'Glucksmann', 5:'Bardella', 33:'Deffontaines'}
+for i in parties:
+    df_circo[parties[i]] = df_circo['%% Voix/exprimés %d' %i].map(format_series)
+df_circo.to_excel('europeennes_2024.xlsx')

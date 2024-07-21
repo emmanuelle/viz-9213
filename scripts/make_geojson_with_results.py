@@ -31,5 +31,19 @@ for feat in gj['features']:
     feat['properties']['vote_2024_t2_Gaillard'] = format_series(df[df['id_bv']==feat['properties']['id_bv']]['% Voix/exprimés 1'].iloc[0])
     feat['properties']['participation_2024_t2'] = format_series(df[df['id_bv']==feat['properties']['id_bv']]['% Votants'].iloc[0][:-1].replace(',', '.'))
 
+
+# Europeennes
+df = pd.read_excel('../raw_data/europeennes_2024.xlsx')
+parties = {4:'Aubry', 6:'Toussaint', 3:'Maréchal', 18:'Bellamy', 11:'Hayer', 27: 'Glucksmann', 5:'Bardella', 33:'Deffontaines'}
+
+df['id_bv'] = df['Code commune'].astype(str) + '_' + df['Code BV'].astype(str)
+
+for feat in gj['features']:
+    for party in parties.values():
+        feat['properties']['vote_2024_euro_%s' %party] = df[df['id_bv']==feat['properties']['id_bv']][party].iloc[0]
+    feat['properties']['participation_2024_euro'] = format_series(df[df['id_bv']==feat['properties']['id_bv']]['% Votants'].iloc[0][:-1].replace(',', '.'))
+
+
+
 with open("../raw_data/circo_contours_bvnames_results.geojson", 'w') as outfile:
      geojson.dump(gj, outfile)
