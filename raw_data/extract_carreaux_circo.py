@@ -4,7 +4,14 @@ import geopandas as gpd
 # Original data from https://www.insee.fr/fr/statistiques/7655475?sommaire=7655515
 
 carreaux = gpd.read_file('original_data/carreaux_200m_met.gpkg')
-carreaux_circo = carreaux[carreaux['lcog_geo'].isin(['92019', '92014', '92071', '92002'])]
+list_communes = ['92019', '92014', '92071', '92002', 
+                 '9200292019', '9201992002',
+                 '9200292071', '9207192002',
+                 '9200292014', '9201492002',
+                 '9201492019', '9201992014',
+                 '9201492071', '9207192014',
+                 '9201992071', '9207192019']
+carreaux_circo = carreaux[carreaux['lcog_geo'].isin(list_communes)]
 
 carreaux_circo.to_file("carreaux.geojson", driver='GeoJSON')
 carreaux_circo.to_file("carreaux.gpkg", driver='GPKG')
