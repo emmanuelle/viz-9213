@@ -23,6 +23,8 @@ df_bv.to_excel('noms_bureaux_votes.xlsx')
 # Data from https://www.data.gouv.fr/fr/datasets/elections-legislatives-des-30-juin-et-7-juillet-2024-resultats-definitifs-du-2nd-tour/
 df = pd.read_excel('original_data/resultats-definitifs-par-bureau-de-vote.xlsx')
 df_circo = df[df['Code commune'].isin(['92019', '92014', '92071', '92002'])]
+df_circo['id_bv2'] = df_circo['Code commune'].astype(str) + '_' + df_circo['Code BV'].astype(str).map(lambda s: s.lstrip('0'))
+df_circo['nomBureauVote'] = df_circo['id_bv2'].map(dict_bv_names) 
 df_circo.to_excel('legislatives2024_t2_9213.xlsx')
 
 # Data from https://www.data.gouv.fr/fr/datasets/elections-legislatives-des-30-juin-et-7-juillet-2024-resultats-definitifs-du-1er-tour/
