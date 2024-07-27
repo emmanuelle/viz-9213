@@ -3,4 +3,5 @@ pandas
 geojson
 openpyxl
 matplotlib
+scikit-learn
 plotly
