@@ -3,3 +3,4 @@ pandas
 geojson
 openpyxl
 matplotlib
+plotly
