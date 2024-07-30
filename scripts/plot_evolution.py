@@ -155,6 +155,6 @@ for code, code_values in code_dict.items():
         "color": "black",
         "source": gj_communes
     }])
-    fig.write_html(f'../figs/evolution_{code}_t1_t2_2024.html', include_plotlyjs='cdn')
+    fig.write_html(f'../docs/evolution_{code}_t1_t2_2024.html', include_plotlyjs='cdn')
 
     
