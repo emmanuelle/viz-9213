@@ -112,9 +112,9 @@ new_df.loc[:, 'evolution_BregeonIsnard_t1_t2_pct'] = new_df['evolution_BregeonIs
 
 ## Evolution entre européennes et tour 1
 new_df.loc[:, 'evolution_NFP_eur_t1_abs'] = new_df["GAILLARD_t1"] - (new_df["AUBRY_eur"] + \
-                                                                          new_df["TOUSSAINT_eur"] + \
-                                                                          new_df["GLUCKSMANN_eur"] + \
-                                                                          new_df["DEFFONTAINES_eur"])
+                                                                     new_df["TOUSSAINT_eur"] + \
+                                                                     new_df["GLUCKSMANN_eur"] + \
+                                                                     new_df["DEFFONTAINES_eur"])
 new_df.loc[:, 'evolution_NFP_eur_t1_pct'] = new_df['evolution_NFP_eur_t1_abs'] / new_df["Inscrits_eur"]*100
 
 new_df.loc[:, 'evolution_LREM_eur_t1_abs'] = new_df["BREGEON_t1"] - new_df["HAYER_eur"]
@@ -122,6 +122,10 @@ new_df.loc[:, 'evolution_LREM_eur_t1_pct'] = new_df['evolution_LREM_eur_t1_abs']
 
 new_df.loc[:, 'evolution_LR_eur_t1_abs'] = new_df["ISNARD_t1"] - new_df["BELLAMY_eur"]
 new_df.loc[:, 'evolution_LR_eur_t1_pct'] = new_df['evolution_LR_eur_t1_abs'] / new_df["Inscrits_eur"]*100
+
+new_df.loc[:, 'evolution_LR+LREM_eur_t1_abs'] = (new_df.loc[:, 'evolution_LR_eur_t1_abs'] + \
+                                                 new_df.loc[:, 'evolution_LREM_eur_t1_abs'])
+new_df.loc[:, 'evolution_LR+LREM_eur_t1_pct'] = new_df['evolution_LR+LREM_eur_t1_abs'] / new_df["Inscrits_eur"]*100
 
 new_df.loc[:, 'evolution_RN_eur_t1_abs'] = new_df["YVARS_t1"] - new_df["BARDELLA_eur"]
 new_df.loc[:, 'evolution_RN_eur_t1_pct'] = new_df['evolution_RN_eur_t1_abs'] / new_df["Inscrits_eur"]*100
