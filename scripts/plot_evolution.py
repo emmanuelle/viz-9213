@@ -35,6 +35,10 @@ code_dict = {'NFP': {'label_abs': 'Nb de voix en plus pour le NFP',
                       'titre': 'du vote LR',
                       'cscale': 'RdBu',
                       'midpoint': 0},
+             'LR+LREM': {'label_abs': 'Nb de voix en plus pour LR et LREM',
+                         'titre': 'du vote LR + LREM',
+                         'cscale': 'Blues',
+                         'midpoint': None},
              'RN': {'label_abs': 'Nb de voix en plus pour le RN',
                     'titre': 'du vote RN',
                     'cscale': 'Earth',
@@ -90,7 +94,7 @@ for code, code_values in code_dict.items():
         "color": "black",
         "source": gj_communes
     }])
-    fig.write_html(f'../figs/evolution_{code}_euros_t1_2024.html', include_plotlyjs='cdn')
+    fig.write_html(f'../docs/evolution_{code}_euros_t1_2024.html', include_plotlyjs='cdn')
 
 
 
