@@ -1,3 +1,6 @@
+"""
+A simple way to extract two geographical clusters for legislatives T2
+"""
 import pandas as pd
 import numpy as np
 import plotly.express as px
@@ -46,3 +49,19 @@ for i in range(8):
 fig.write_html('vote_clusters_t2_2024.html')
 fig.write_image('vote_clusters_t2_2024.png')
 fig.show()
+
+# Now we save the contour of the more left-wing cluster in a specific geojson file
+
+import geopandas as gpd
+df_places = gpd.read_file('../raw_data/circo_contours.geojson')
+df['id_bv'] = df['Code commune'].astype(str) + '_' + df['Code BV'].astype(str)
+df = gpd.GeoDataFrame(pd.merge(df, df_places, on='id_bv'))
+cluster_0 = df[df.labels == 0]
+cluster_1 = df[df.labels == 1]
+
+import shapely
+poly_list = list(cluster_1['geometry'])
+res = shapely.ops.unary_union(poly_list)
+p = gpd.GeoSeries(res)
+# p.plot() # if we need to check the contour in matplotlib
+p.to_file("cluster.geojson", driver='GeoJSON')
