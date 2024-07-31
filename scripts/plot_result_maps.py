@@ -24,13 +24,19 @@ for poly_collection in gj_communes['coordinates']:
         pts.append([None, None]) #end of polygon
 lon_communes, lat_communes = zip(*pts)
 
+clip_color_interval = True
 
 for col in columns_to_plot:
     print(col)
+    if clip_color_interval:
+        quantile = 0.05
+        range_color = (df[col].quantile(0.05), df[col].quantile(0.95))
+    else:
+        range_color = None
     fig = px.choropleth(df, geojson=gj, locations='id_bv',
                                color=col,
                                color_continuous_scale='Reds',
-                               #hover_name='nomBureauVote',
+                               range_color=range_color,
                                hover_data={ 'nomBureauVote': True,
                                             'id_bv':False,
                                            col:':.2f'},
