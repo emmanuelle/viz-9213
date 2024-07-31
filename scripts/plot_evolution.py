@@ -155,7 +155,8 @@ code_dict = {'Gaillard': {'label_abs': 'Nb de voix en plus pour Gaillard',
              'Participation': {'label_abs': "Nb de votes en plus",
                                'titre': "de la participation",
                                'cscale': 'PuOr',
-                               'midpoint': 0},
+                               'midpoint': 0,
+                               'cmap_method': 'minmax'},
              }
 
 
