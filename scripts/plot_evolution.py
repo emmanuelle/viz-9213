@@ -124,7 +124,7 @@ for code, code_values in code_dict.items():
                            featureidkey='properties.id_bv',
                            projection="mercator"
 )
-    fig2.add_trace(go.Scattergeo(lat=lat_communes, lon=lon_communes, 
+    fig2.add_trace(go.Scattergeo(lat=lat_communes, lon=lon_communes, hoverinfo='skip',
                                  mode='lines', line=dict(width=3, color='black')))
     fig2.update_geos(fitbounds="locations")
     fig2.update_layout(template='plotly_white')
@@ -213,7 +213,7 @@ for code, code_values in code_dict.items():
                            featureidkey='properties.id_bv',
                            projection="mercator"
 )
-    fig2.add_trace(go.Scattergeo(lat=lat_communes, lon=lon_communes, 
+    fig2.add_trace(go.Scattergeo(lat=lat_communes, lon=lon_communes, hoverinfo='skip', 
                                  mode='lines', line=dict(width=3, color='black')))
     fig2.update_geos(fitbounds="locations")
     fig2.update_layout(template='plotly_white')
