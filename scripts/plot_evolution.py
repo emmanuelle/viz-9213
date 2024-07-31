@@ -45,7 +45,8 @@ code_dict = {'NFP': {'label_abs': 'Nb de voix en plus pour le NFP',
              'RN': {'label_abs': 'Nb de voix en plus pour le RN',
                     'titre': 'du vote RN',
                     'cscale': 'Earth',
-                    'midpoint': 0},
+                    'midpoint': 0,
+                    'cmap_method': 'minmax'},
              'Reqt': {'label_abs': 'Nb de voix en plus pour Reconquête',
                       'titre': 'du vote Reconquête',
                       'cscale': 'gray',
@@ -68,8 +69,8 @@ code_dict = {'NFP': {'label_abs': 'Nb de voix en plus pour le NFP',
 for code, code_values in code_dict.items():
     colname = f'evolution_{code}_eur_t1_pct'
     if code_values['midpoint'] == 0:
-        cmap, color_range = make_colormap(df[colname], method='minmax')
-        # cmap, color_range = make_colormap(df[colname], method='quantile', quantile_value=0.04)
+        cmap_method = 'quantile' if 'cmap_method' not in code_values.keys() else code_values['cmap_method']
+        cmap, color_range = make_colormap(df[colname], method=cmap_method)
     else:
         cmap, color_range = code_values['cscale'], None
     fig = px.choropleth_mapbox(df, geojson=gj, locations='id_bv', 
@@ -137,7 +138,8 @@ code_dict = {'Gaillard': {'label_abs': 'Nb de voix en plus pour Gaillard',
              'BregeonIsnard': {'label_abs': 'Nb de voix en plus pour Bregeon que pour Bregeon+Isnard',
                     'titre': 'du vote LREM+LR',
                     'cscale': 'RdBu',
-                    'midpoint': 0},
+                    'midpoint': 0,
+                    'cmap_method': 'minmax'},
              'Blancs': {'label_abs': "Nb de blancs en plus",
                         'titre': "du vote blanc",
                         'cscale': 'Greys',
@@ -152,8 +154,8 @@ code_dict = {'Gaillard': {'label_abs': 'Nb de voix en plus pour Gaillard',
 for code, code_values in code_dict.items():
     colname = f'evolution_{code}_t1_t2_pct'
     if code_values['midpoint'] == 0:
-        #cmap, color_range = make_colormap(df[colname], method='quantile', quantile_value=0.04)
-        cmap, color_range = make_colormap(df[colname], method='minmax')
+        cmap_method = 'quantile' if 'cmap_method' not in code_values.keys() else code_values['cmap_method']
+        cmap, color_range = make_colormap(df[colname], method=cmap_method)
     else:
         cmap, color_range = code_values['cscale'], None
     fig = px.choropleth_mapbox(df, geojson=gj, locations='id_bv', 
