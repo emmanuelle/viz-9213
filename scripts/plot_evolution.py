@@ -15,6 +15,12 @@ with open('../raw_data/circo_contours_bvnames_corrected.geojson') as f:
 # Contours communes
 with open('../raw_data/contour_communes.geojson') as f:
     gj_communes = geojson.load(f)
+pts = []
+for poly_collection in gj_communes['coordinates']:
+    for poly in poly_collection:
+        pts.extend(poly)
+        pts.append([None, None]) #end of polygon
+lon_communes, lat_communes = zip(*pts)
 
 # Dataframe
 df = pd.read_csv("../raw_data/evolution_data.csv")
@@ -118,6 +124,8 @@ for code, code_values in code_dict.items():
                            featureidkey='properties.id_bv',
                            projection="mercator"
 )
+    fig2.add_trace(go.Scattergeo(lat=lat_communes, lon=lon_communes, 
+                                 mode='lines', line=dict(width=3, color='black')))
     fig2.update_geos(fitbounds="locations")
     fig2.update_layout(template='plotly_white')
     if color_range is not None:
@@ -204,6 +212,8 @@ for code, code_values in code_dict.items():
                            featureidkey='properties.id_bv',
                            projection="mercator"
 )
+    fig2.add_trace(go.Scattergeo(lat=lat_communes, lon=lon_communes, 
+                                 mode='lines', line=dict(width=3, color='black')))
     fig2.update_geos(fitbounds="locations")
     fig2.update_layout(template='plotly_white')
     if color_range is not None:
