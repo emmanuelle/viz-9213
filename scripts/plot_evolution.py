@@ -3,6 +3,9 @@ import plotly.express as px
 import plotly.graph_objects as go
 import geojson
 import numpy as np
+# Custom function to make_colormap
+from utils import make_colormap
+
 
 ## READ data
 # Contours bureaux de vote
@@ -64,11 +67,15 @@ code_dict = {'NFP': {'label_abs': 'Nb de voix en plus pour le NFP',
 
 for code, code_values in code_dict.items():
     colname = f'evolution_{code}_eur_t1_pct'
+    if code_values['midpoint'] == 0:
+        cmap, color_range = make_colormap(df[colname], method='minmax')
+        # cmap, color_range = make_colormap(df[colname], method='quantile', quantile_value=0.04)
+    else:
+        cmap, color_range = code_values['cscale'], None
     fig = px.choropleth_mapbox(df, geojson=gj, locations='id_bv', 
                                color=colname,
-                               color_continuous_scale=code_values['cscale'],
+                               color_continuous_scale=cmap,
                                color_continuous_midpoint=code_values['midpoint'],
-                               #range_color = [np.min(df[colname]), np.max(df[colname])],
                                mapbox_style='open-street-map',
                                hover_name='nom_bv',
                                hover_data={f'evolution_{code}_eur_t1_abs': True,
@@ -94,8 +101,27 @@ for code, code_values in code_dict.items():
         "color": "black",
         "source": gj_communes
     }])
+    if color_range is not None:
+        fig.update_layout(coloraxis=dict(cmin=color_range[0], cmax=color_range[1]))
     fig.write_html(f'../docs/evolution_{code}_euros_t1_2024.html', include_plotlyjs='cdn')
 
+    fig2 = px.choropleth(df, geojson=gj, locations='id_bv',
+                               color=colname,
+                               color_continuous_scale=cmap,
+                               hover_name='nom_bv',
+                               hover_data={f'evolution_{code}_eur_t1_abs': True,
+                                           'id_bv': False,
+                                           f'evolution_{code}_eur_t1_pct':':.2f'},
+                           title=f"Évolution (Européennes vers premier tour des législatives)",
+                           center={"lat": 48.77, "lon": 2.27},
+                           featureidkey='properties.id_bv',
+                           projection="mercator"
+)
+    fig2.update_geos(fitbounds="locations")
+    fig2.update_layout(template='plotly_white')
+    if color_range is not None:
+        fig2.update_layout(coloraxis=dict(cmin=color_range[0], cmax=color_range[1]))
+    fig2.write_html(f'../docs/evolution_{code}_euros_t1_2024_simple.html', include_plotlyjs='cdn')
 
 
 
@@ -125,11 +151,15 @@ code_dict = {'Gaillard': {'label_abs': 'Nb de voix en plus pour Gaillard',
 
 for code, code_values in code_dict.items():
     colname = f'evolution_{code}_t1_t2_pct'
+    if code_values['midpoint'] == 0:
+        #cmap, color_range = make_colormap(df[colname], method='quantile', quantile_value=0.04)
+        cmap, color_range = make_colormap(df[colname], method='minmax')
+    else:
+        cmap, color_range = code_values['cscale'], None
     fig = px.choropleth_mapbox(df, geojson=gj, locations='id_bv', 
                                color=colname,
-                               color_continuous_scale=code_values['cscale'],
+                               color_continuous_scale=cmap,
                                color_continuous_midpoint=code_values['midpoint'],
-                               #range_color = [np.min(df[colname]), np.max(df[colname])],
                                mapbox_style='open-street-map',
                                hover_name='nom_bv',
                                hover_data={f'evolution_{code}_t1_t2_abs': True,
@@ -142,10 +172,10 @@ for code, code_values in code_dict.items():
                            opacity=0.5,
                            zoom=11,
                            center={"lat": 48.77, "lon": 2.27},
-                           # height=600,
-                           # width=800,
                            featureidkey='properties.id_bv')
     fig.update_geos(fitbounds="locations")
+    if color_range is not None:
+        fig.update_layout(coloraxis=dict(cmin=color_range[0], cmax=color_range[1]))
     # Ajouter les contours des communes
     fig.update_layout(mapbox_layers=[{
         "below": 'traces',
@@ -156,5 +186,26 @@ for code, code_values in code_dict.items():
         "source": gj_communes
     }])
     fig.write_html(f'../docs/evolution_{code}_t1_t2_2024.html', include_plotlyjs='cdn')
+    # Now simple choropleth
+    fig2 = px.choropleth(df, geojson=gj, locations='id_bv',
+                               color=colname,
+                               color_continuous_scale=cmap,
+                               hover_name='nom_bv',
+                               hover_data={f'evolution_{code}_t1_t2_abs': True,
+                                           'id_bv': False,
+                                           f'evolution_{code}_t1_t2_pct':':.2f'},
+                           labels={f'evolution_{code}_t1_t2_abs': code_values['label_abs'],
+                                   'id_bv': False, 
+                                   f'evolution_{code}_t1_t2_pct': f"En pourcentage d'inscrits"},
+                           title=f"Évolution {code_values['titre']} (Premier vers deuxième tour des législatives)",
+                           center={"lat": 48.77, "lon": 2.27},
+                           featureidkey='properties.id_bv',
+                           projection="mercator"
+)
+    fig2.update_geos(fitbounds="locations")
+    fig2.update_layout(template='plotly_white')
+    if color_range is not None:
+        fig2.update_layout(coloraxis=dict(cmin=color_range[0], cmax=color_range[1]))
+    fig2.write_html(f'../docs/evolution_{code}_t1_t2_2024_simple.html', include_plotlyjs='cdn')
 
     
