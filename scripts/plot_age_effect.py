@@ -29,7 +29,37 @@ merged = gpd.GeoDataFrame(pd.merge(gdf, dfgg, on='numeroBureauVote'))
 merged.to_file('../raw_data/circo_contours_bvnames_age.geojson', driver='GeoJSON')
 
 import plotly.express as px
-fig = px.scatter(merged, x='age', y='vote_2024_t2_Gaillard', trendline='ols', hover_data=['libellé du bureau de vote'])
-fig.show()
+fig = px.scatter(merged, x='age', 
+                 y=[
+                      
+                     'vote_2024_t1_Gaillard',
+                     'vote_2024_t1_Bregeon',
+                     'vote_2024_t1_Yvars',
+                     'vote_2024_t1_Isnard',
+                     'participation_2024_t1', 
+                     'participation_2024_t2', 
+                 ], 
+                 trendline='ols', hover_data=['libellé du bureau de vote'], facet_col='variable', 
+                 facet_col_wrap=3,
+                 #height=500,
+                 title="Vote en fonction de l'âge moyen du bureau de vote"
+                )
 
-fig.write_html('../docs/effet_of_age.html', include_plotlyjs='cdn')
+from plotly.subplots import make_subplots
+fig2 = make_subplots(cols=3, rows=2, vertical_spacing=0.22)
+for i in range(6):
+    fig2.add_trace(fig.data[2*i], col=i%3 + 1, row=i // 3 + 1)
+    fig2.add_trace(fig.data[2*i + 1], col=i%3 + 1, row=i // 3 +1)
+fig2.update_layout(annotations=fig['layout']['annotations'], showlegend=False, 
+                    #height=600, 
+                    template='simple_white+gridon',
+                  title=fig.layout.title)
+for i, annotation in enumerate(fig2['layout']['annotations']):
+    if i in [0, 3, 4, 5]:
+        annotation['text'] = "Vote t1 %s" %(annotation['text'].split('_')[-1])
+    else:
+        annotation['text'] = "Participation %s" %(annotation['text'].split('_')[-1])
+fig2.update_xaxes(title_text='âge moyen', row=2)
+fig2.show()
+
+fig2.write_html('../docs/effet_of_age.html', include_plotlyjs='cdn')
