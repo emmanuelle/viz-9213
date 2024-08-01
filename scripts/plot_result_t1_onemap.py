@@ -66,7 +66,7 @@ fig.update_layout(template='plotly_white', margin={'l':0, 'r':0.01, 'b':0.05})
 for i in range(n_rows * n_cols):
     fig.data[i].pop('coloraxis')
 
-fig.add_annotation(text="Les chiffres sur la colorbar correspondent aux quantiles 0.05, 0.5 et 0.95",
+fig.add_annotation(text="Les chiffres sur la colorbar correspondent aux quantiles 0.05 et 0.95, et à la moyenne de la circo",
                   xref="paper", yref="paper",
                   x=0.1, y=0.02, showarrow=False)
 fig.write_html('../docs/results_circo_t1.html')
