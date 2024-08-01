@@ -62,4 +62,4 @@ for i, annotation in enumerate(fig2['layout']['annotations']):
 fig2.update_xaxes(title_text='âge moyen', row=2)
 fig2.show()
 
-fig2.write_html('../docs/effet_of_age.html', include_plotlyjs='cdn')
+fig2.write_html('../docs/effet_age.html', include_plotlyjs='cdn')
