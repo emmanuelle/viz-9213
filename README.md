@@ -55,3 +55,5 @@ merged.plot(column=merged['% Voix/exprimés 1'].map(lambda x: float(x[:-1].repla
         
 ``scripts/plot_evolution.py``: plot maps of vote evolution (europeennes 2024 --> tour 1 legislatives 2024 --> tour 2 legislatives 2024)
 
+``scripts/plot_scatter_evolution.py``: plot various scatter plots of vote/vote evolution vs another vote/vote evolution
+
