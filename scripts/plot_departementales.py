@@ -97,7 +97,7 @@ fig.add_trace(go.Choropleth(locations=df_canton['id_bv'],
 fig.add_annotation(text="Elections départementales 2021, canton d'Antony",
                       xref="paper", yref="paper",
                       font_size=14,
-                      x=0.1, y=0.94, showarrow=False)
+                      x=0.1, y=0.98, showarrow=False)
 fig.add_annotation(text="La moyenne sur le canton est indiquée sur la colorbar",
                       xref="paper", yref="paper",
                       font_size=11,
