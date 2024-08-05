@@ -2,6 +2,7 @@ import pandas as pd
 import geopy
 from geopy.geocoders import Nominatim, ArcGIS
 from utils import df_to_geojson
+import geojson
 
 df = pd.read_excel('../raw_data/92-13 - Concaténation actions Porte à Porte législatives 2024.xlsx', header=1)
 
@@ -41,7 +42,7 @@ columns = ['Date action', 'ID action', 'type action',
 df_pap = df.query("`type action` == 'Porte à Porte'")
 df_pap = df_pap[df_pap['longitude'].notna()]
 df_pap = df_pap[df_pap['longitude']!='']
-gj = df_to_geojson(df_pap, columns)
+gj = df_to_geojson(df_pap.fillna(''), columns)
 
 with open("../raw_data/actions_campagne.geojson", 'w') as outfile:
      geojson.dump(gj, outfile)
