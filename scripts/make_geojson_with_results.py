@@ -43,7 +43,7 @@ for feat in gj['features']:
         feat['properties']['vote_2024_euro_%s' %party] = df[df['id_bv']==feat['properties']['id_bv']][party].iloc[0]
     feat['properties']['participation_2024_euro'] = format_series(df[df['id_bv']==feat['properties']['id_bv']]['% Votants'].iloc[0][:-1].replace(',', '.'))
 
-# Municipales
+# Municipales 2020
 df = pd.read_excel('../raw_data/municipales_2020_t1_antony.xlsx')
 
 parties = {'Senant':'', 'Aschehoug':'.1', 'Lajeunie':'.2', 'Desbois':'.3'}
@@ -52,8 +52,21 @@ df['id_bv'] = '92002' + '_' + df['Code B.Vote'].astype(str)
 for feat in gj['features']:
     if feat['properties']['nomCommune'] == 'Antony':
         for party, code in parties.items():
-            feat['properties']['vote_2020_muni_%s' %party] = df[df['id_bv']==feat['properties']['id_bv']]['% Voix/Exp' + code].iloc[0]
-        feat['properties']['participation_2020_muni'] = df[df['id_bv']==feat['properties']['id_bv']]['% Exp/Ins'].iloc[0]
+            feat['properties']['vote_2020_muni_%s' %party] = float(df[df['id_bv']==feat['properties']['id_bv']]['% Voix/Exp' + code].iloc[0])
+        feat['properties']['participation_2020_muni'] = float(df[df['id_bv']==feat['properties']['id_bv']]['% Exp/Ins'].iloc[0])
+
+# Municipales 2014
+df = pd.read_excel('../raw_data/municipales_2014_t1_antony.xlsx')
+df['id_bv'] = '92002' + '_' + df['No bureau vote'].astype(str).str.lstrip('0')
+parties = ['SÉNANT', 'MEUNIER', 'RIVET', 'BUGAT']
+
+for feat in gj['features']:
+    if feat['properties']['nomCommune'] == 'Antony':
+        for party in parties:
+            row = df[(df['id_bv']==feat['properties']['id_bv']) & (df['Nom'] == party)].iloc[0]
+            feat['properties']['vote_2014_muni_%s' %party] = float(100 * row['Voix'] / row['Exprimés'])
+        # All candidate lines have the same info for Inscrits / exprimes
+        feat['properties']['participation_2014_muni'] = float(100 * row['Exprimés'] / row['Inscrits'])      
 
 # Now save results
 with open("../raw_data/circo_contours_bvnames_results.geojson", 'w') as outfile:
