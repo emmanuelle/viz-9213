@@ -119,6 +119,10 @@ for code, code_values in code_dict.items():
                                hover_data={f'evolution_{code}_eur_t1_abs': True,
                                            'id_bv': False,
                                            f'evolution_{code}_eur_t1_pct':':.2f'},
+                               labels={f'evolution_{code}_eur_t1_abs': code_values['label_abs'],
+                                   'id_bv': False,
+                                   f'evolution_{code}_eur_t1_pct': f"En pourcentage d'inscrits"},
+
                            title=f"Évolution (Européennes vers premier tour des législatives)",
                            center={"lat": 48.77, "lon": 2.27},
                            featureidkey='properties.id_bv',
